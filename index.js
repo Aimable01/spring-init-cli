@@ -21,29 +21,18 @@ program
   .argument("[dir]", "Name of the directory to create", "spring-app")
   .parse(process.argv);
 
-// Function to pring banner
+// Function to print welcome banner
 const printBanner = () => {
   const bannerText = figlet.textSync("CREATE SPRING APP", {
-    font: "Standard", // You can choose from various figlet fonts
+    font: "Standard",
     horizontalLayout: "default",
     verticalLayout: "default",
   });
-  console.log(gradient.pastel.multiline(bannerText)); // Gradient for the banner
+  console.log(gradient.pastel.multiline(bannerText));
 };
 
+// the main function to generate the project
 const createSpringProject = async (dir) => {
-  // Banner and welcome message
-  //   console.log(
-  //     chalk.cyan(`
-  //   ██████╗  ██████╗  █████╗ ███╗   ██╗███████╗████████╗
-  //   ██╔══██╗██╔═══██╗██╔══██╗████╗  ██║██╔════╝╚══██╔══╝
-  //   ██║  ██║██║   ██║███████║██╔██╗ ██║█████╗     ██║
-  //   ██║  ██║██║   ██║██╔══██║██║╚██╗██║██╔══╝     ██║
-  //   ██████╔╝╚██████╔╝██║  ██║██║ ╚████║███████╗   ██║
-  //   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝
-  //   `)
-  //   );
-
   printBanner();
 
   console.log(chalk.bold.cyan(`Welcome to Spring Boot Project Generator!`));
@@ -103,7 +92,6 @@ const createSpringProject = async (dir) => {
     options: dependenciesList,
   });
 
-  // Construct URL for Spring Initializr
   const baseUrl = "https://start.spring.io/starter.zip";
   const params = new URLSearchParams({
     type: "maven-project",
@@ -119,7 +107,7 @@ const createSpringProject = async (dir) => {
 
   const downloadUrl = `${baseUrl}?${params}`;
 
-  // Fetch the project
+  // download project
   console.log(chalk.blue(`\nDownloading project...`));
   const response = await axios({
     method: "GET",
@@ -127,7 +115,7 @@ const createSpringProject = async (dir) => {
     responseType: "stream",
   });
 
-  // Save the zip file
+  // save zip folder
   const zipPath = path.join(os.tmpdir(), `${projectName}.zip`);
   const writer = fs.createWriteStream(zipPath);
   response.data.pipe(writer);
@@ -137,7 +125,7 @@ const createSpringProject = async (dir) => {
     writer.on("error", reject);
   });
 
-  // Ensure `dir` is resolved correctly
+  // extract zip folder
   const extractDir = dir ? path.resolve(dir) : process.cwd();
   console.log(chalk.blue(`Extracting project to ${extractDir}...`));
 
@@ -152,7 +140,7 @@ const createSpringProject = async (dir) => {
     console.error(chalk.red("Error extracting project:"), error);
   }
 
-  // Final message
+  // final message
   console.log(
     chalk.bold.green(
       `\nProject "${projectName}" created successfully in ${extractDir}\n`
@@ -167,6 +155,7 @@ const createSpringProject = async (dir) => {
   console.log(chalk.bold.cyan(`    ./mvnw spring-boot:run\n`));
 };
 
+// if there is an error
 const dir = program.args[0];
 createSpringProject(dir).catch((error) => {
   console.error(chalk.red("Error creating Spring project:", error.message));

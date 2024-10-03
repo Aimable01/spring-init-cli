@@ -1,5 +1,5 @@
 {
-  "name": "spring-init-cli",
+  "name": "spring-cli-init",
   "version": "1.0.1",
   "description": "An alternative to the spring initilizr, but via cli.",
   "main": "index.js",

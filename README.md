@@ -16,9 +16,9 @@ npx spring-cli-init
 ```
 
 ### Successful installation
+![image1](https://github.com/user-attachments/assets/fd5e42fb-6bfe-4fba-9a97-128c3448f7a1)
+![image2](https://github.com/user-attachments/assets/0524eea7-185a-4ed4-981d-6264d71bb6cb)
 
-[Spring CLI image](assets/image1.png)
-[Spring CLI success message](assets/image1.png)
 
 Alternatively, you can install `spring-cli-init` globally using npm:
 

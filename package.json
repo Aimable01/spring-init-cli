@@ -1,0 +1,20 @@
+{
+  "name": "spring-cli",
+  "version": "1.0.0",
+  "description": "An alternative to the spring initializr, but via cli",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@clack/prompts": "^0.7.0",
+    "adm-zip": "^0.5.16",
+    "axios": "^1.7.7",
+    "chalk": "^5.3.0",
+    "commander": "^12.1.0",
+    "extract-zip": "^2.0.1"
+  }
+}

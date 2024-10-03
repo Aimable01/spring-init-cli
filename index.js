@@ -2,11 +2,13 @@
 import * as p from "@clack/prompts";
 import chalk from "chalk";
 import axios from "axios";
+import gradient from "gradient-string";
 import fs from "fs";
 import path from "path";
 import { Command } from "commander";
 import extract from "extract-zip";
 import os from "os";
+import figlet from "figlet";
 
 const program = new Command();
 
@@ -19,21 +21,33 @@ program
   .argument("[dir]", "Name of the directory to create", "spring-app")
   .parse(process.argv);
 
+// Function to pring banner
+const printBanner = () => {
+  const bannerText = figlet.textSync("CREATE SPRING APP", {
+    font: "Standard", // You can choose from various figlet fonts
+    horizontalLayout: "default",
+    verticalLayout: "default",
+  });
+  console.log(gradient.pastel.multiline(bannerText)); // Gradient for the banner
+};
+
 const createSpringProject = async (dir) => {
   // Banner and welcome message
-  console.log(
-    chalk.cyan(`
-  ██████╗  ██████╗  █████╗ ███╗   ██╗███████╗████████╗
-  ██╔══██╗██╔═══██╗██╔══██╗████╗  ██║██╔════╝╚══██╔══╝
-  ██║  ██║██║   ██║███████║██╔██╗ ██║█████╗     ██║   
-  ██║  ██║██║   ██║██╔══██║██║╚██╗██║██╔══╝     ██║   
-  ██████╔╝╚██████╔╝██║  ██║██║ ╚████║███████╗   ██║   
-  ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝   
-  `)
-  );
+  //   console.log(
+  //     chalk.cyan(`
+  //   ██████╗  ██████╗  █████╗ ███╗   ██╗███████╗████████╗
+  //   ██╔══██╗██╔═══██╗██╔══██╗████╗  ██║██╔════╝╚══██╔══╝
+  //   ██║  ██║██║   ██║███████║██╔██╗ ██║█████╗     ██║
+  //   ██║  ██║██║   ██║██╔══██║██║╚██╗██║██╔══╝     ██║
+  //   ██████╔╝╚██████╔╝██║  ██║██║ ╚████║███████╗   ██║
+  //   ╚═════╝  ╚═════╝ ╚═╝  ╚═╝╚═╝  ╚═══╝╚══════╝   ╚═╝
+  //   `)
+  //   );
 
-  console.log(chalk.green(`Welcome to Spring Boot Project Generator!`));
-  console.log(chalk.yellow(`Let's set up your project!\n`));
+  printBanner();
+
+  console.log(chalk.bold.cyan(`Welcome to Spring Boot Project Generator!`));
+  console.log(chalk.green(`Let's set up your project!\n`));
 
   const javaVersions = [
     { value: "8", label: "Java 8" },
@@ -140,13 +154,17 @@ const createSpringProject = async (dir) => {
 
   // Final message
   console.log(
-    chalk.green(`
-  Next steps:
-  1. Navigate to your project directory: cd ${dir}
-  2. Add any additional dependencies or configurations as needed.
-  3. Run your project with: ./mvnw spring-boot:run
-  `)
+    chalk.bold.green(
+      `\nProject "${projectName}" created successfully in ${extractDir}\n`
+    )
   );
+  console.log(
+    chalk.bold.blue(
+      `To get started, navigate to your project directory and run:\n`
+    )
+  );
+  console.log(chalk.bold.cyan(`    cd ${projectName}`));
+  console.log(chalk.bold.cyan(`    ./mvnw spring-boot:run\n`));
 };
 
 const dir = program.args[0];

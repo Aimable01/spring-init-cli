@@ -45,6 +45,9 @@
     "type": "git",
     "url": "https://github.com/Aimable01/spring-init-cli.git"
   },
+  "bin": {
+    "spring-init-cli": "index.js"
+  },
   "keywords": [
     "spring",
     "cli",
